@@ -32,7 +32,7 @@ steps{
 sh "mvn clean package"
 }
 }
-parallel{
+
 stage('Execute sonarQubeeReport'){
 steps{
 sh "mvn sonar:sonar"
@@ -43,7 +43,7 @@ steps{
 sh "mvn clean deploy"
 }
 }
-}
+
 stage('DeployIntoTomcat'){
 steps{
     sshagent(['2e3dc738-f40e-4cbf-a936-937c2e361a1d']) {
