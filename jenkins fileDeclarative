@@ -4,6 +4,7 @@ agent any;
 tools{
     maven 'maven3.8.1'
 }
+/*
 triggers{
     //poll scm
     pollSCM('* * * * *')
@@ -12,6 +13,7 @@ triggers{
     //githook
     //githubPush()
 }
+*/
 options{
 timestamps()
 }
