@@ -1,0 +1,66 @@
+pipeline{
+    
+agent any;
+tools{
+    maven 'maven3.8.1'
+}
+triggers{
+    //poll scm
+    pollSCM('* * * * *')
+    //build periodically
+    //cron('* * * * *')
+    //githook
+    //githubPush()
+}
+
+stages{
+    
+stage('Checkoutcode'){
+    
+steps{
+    
+git branch: 'development', credentialsId: '1f463fef-4f31-4c26-a096-60b5810134c3', url: 'https://github.com/Mallisoftwaresolutions/maven-web-application.git'
+    }
+}
+stage('Build'){
+steps{
+sh "mvn clean package"
+}
+}
+/*
+stage('Execute sonarQubeeReport'){
+steps{
+sh "mvn sonar:sonar"
+}
+}
+stage('uploadArtifactsIntoNexus'){
+steps{
+sh "mvn clean deploy"
+}
+}
+stage('DeployIntoTomcat'){
+steps{
+    sshagent(['2e3dc738-f40e-4cbf-a936-937c2e361a1d']) {
+    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@13.234.17.98:/opt/apache-tomcat-9.0.50/webapps/"
+}
+}
+} */
+}//stages closing
+post{
+    success{
+        emailext to: 'mallijntua26@gmail.com,y.malli1993@gmail.com',
+                       subject: "Pipeline Build is over .. Build # is ..${env.BUILD_NUMBER} and Build status is.. ${currentBuild.result}.",
+	                   body: "Pipeline Build is over .. Build # is ..${env.BUILD_NUMBER} and Build status is.. ${currentBuild.result}.",
+	                   replyTo: 'mallijntua26@gmail.com'
+			    
+    }
+    failure{
+        emailext to: 'mallijntua26@gmail.com,y.malli1993@gmail..com',
+                     subject: "Pipeline Build is over .. Build # is ..${env.BUILD_NUMBER} and Build status is.. ${currentBuild.result}.",
+	                 body: "Pipeline Build is over .. Build # is ..${env.BUILD_NUMBER} and Build status is.. ${currentBuild.result}.",
+	                 replyTo: 'mallijntua26@gmail.com'
+		 
+    }
+    }
+    
+}
