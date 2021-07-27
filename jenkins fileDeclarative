@@ -12,6 +12,9 @@ triggers{
     //githook
     //githubPush()
 }
+options{
+timestamps()
+}
 
 stages{
     
